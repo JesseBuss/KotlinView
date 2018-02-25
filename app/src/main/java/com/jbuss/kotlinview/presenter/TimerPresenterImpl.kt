@@ -16,6 +16,10 @@ import com.jbuss.kotlinview.view.TimerView
 
 class TimerPresenterImpl(private val timerView: TimerView, private val secondsTimer: SecondsTimer) : TimerPresenter,
         OnTickListener {
+    private val EXTRA_SUPER= "super"
+    private val EXTRA_SECONDS = "seconds"
+    private val EXTRA_LAPS = "laps"
+
     var laps: ArrayList<LapRow>
     var currSeconds: Int? = null
 
@@ -64,20 +68,28 @@ class TimerPresenterImpl(private val timerView: TimerView, private val secondsTi
     }
 
     override fun onSaveInstanceState(parcel: Parcelable, bundle: Bundle) : Parcelable {
-        bundle.putParcelable("super", parcel)
-        currSeconds?.let { bundle.putInt("seconds", it) }
-        bundle.putParcelableArrayList("laps", laps)
+        bundle.putParcelable(EXTRA_SUPER, parcel)
+        currSeconds?.let { bundle.putInt(EXTRA_SECONDS, it) }
+        bundle.putParcelableArrayList(EXTRA_LAPS, laps)
         return bundle
+    }
+
+    override fun getSuperBundle(parcel: Parcelable?): Parcelable? {
+        if (parcel is Bundle) {
+            return parcel.getBundle(EXTRA_SUPER)
+        }
+
+        return null
     }
 
     override fun onRestoreInstanceState(parcel: Parcelable?) {
         if (parcel is Bundle) {
-            currSeconds = parcel.getInt("seconds", -1)
+            currSeconds = parcel.getInt(EXTRA_SECONDS, -1)
             if (currSeconds == -1) {
                 currSeconds = null
             }
 
-            laps = parcel.getParcelableArrayList("laps")
+            laps = parcel.getParcelableArrayList(EXTRA_LAPS)
         }
 
         laps.forEach {

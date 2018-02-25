@@ -62,7 +62,7 @@ class TimerViewImpl(context: Context, attrs: AttributeSet? = null, defStyleAttr:
     }
 
     override fun onRestoreInstanceState(state: Parcelable?) {
-        super.onRestoreInstanceState((state as Bundle).getParcelable("super"))
+        super.onRestoreInstanceState(presenter.getSuperBundle(state))
         presenter.onRestoreInstanceState(state)
     }
 }

@@ -12,5 +12,6 @@ interface TimerPresenter {
     fun handleLapButtonClick()
     fun handleResetButtonClick()
     fun onSaveInstanceState(parcel: Parcelable, bundle: Bundle) : Parcelable
+    fun getSuperBundle(parcel: Parcelable?) : Parcelable?
     fun onRestoreInstanceState(parcel: Parcelable?)
 }
